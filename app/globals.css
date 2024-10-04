@@ -76,3 +76,15 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .shadow-neumorphic {
+    box-shadow: 5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff;
+  }
+  .shadow-neumorphic-inset {
+    box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
+  }
+  .shadow-neumorphic-hover {
+    box-shadow: 2px 2px 5px #d1d1d1, -2px -2px 5px #ffffff;
+  }
+}

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
+import Link from 'next/link';
 
 interface Contest {
   id: number;
@@ -148,15 +149,17 @@ interface ContestCardProps {
 
 function ContestCard({ contest }: ContestCardProps) {
   return (
-      <Card className="bg-white p-4 rounded-lg shadow-neumorphic hover:shadow-neumorphic-hover transition-shadow cursor-pointer">
-        <h3 className="font-semibold text-lg mb-2">{contest.title}</h3>
-        <p className={`text-sm ${getDifficultyColor(contest.difficulty)}`}>
-          {contest.difficulty}
-        </p>
-        <p className="text-sm text-gray-600 mt-2">
-          {contest.startingSoon ? "Starting: soon..." : "Starting: later"}
-        </p>
-      </Card>
+      <Link href={`/contest.tsx`}>
+        <Card className="bg-white p-4 rounded-lg shadow-neumorphic hover:shadow-neumorphic-hover transition-shadow cursor-pointer">
+          <h3 className="font-semibold text-lg mb-2">{contest.title}</h3>
+          <p className={`text-sm ${getDifficultyColor(contest.difficulty)}`}>
+            {contest.difficulty}
+          </p>
+          <p className="text-sm text-gray-600 mt-2">
+            {contest.startingSoon ? "Starting: soon..." : "Starting: later"}
+          </p>
+        </Card>
+      </Link>
   )
 }
 
