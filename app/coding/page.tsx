@@ -9,7 +9,6 @@ import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight, Menu } from 'lucide-react'
-import Link from 'next/link'
 import {
     Select,
     SelectContent,

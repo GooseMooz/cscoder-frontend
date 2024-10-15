@@ -34,9 +34,11 @@ export default function RootLayout({
       <Link href="/">
         <div className="text-3xl font-bold text-red-700 cursor-pointer">CS-CODER</div>
       </Link>
-      <Button className="bg-white text-red-700 shadow-neumorphic transition-shadow">
-        Login
-      </Button>
+      <Link href="/user">
+        <Button className="bg-white text-red-700 shadow-neumorphic transition-shadow">
+          Login
+        </Button>
+      </Link>
     </header>
     {children}
     </body>
