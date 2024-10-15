@@ -50,12 +50,14 @@ export default function Component() {
 
   return (
       <div className="min-h-screen bg-gray-100 p-4">
-        <header className="flex justify-between items-center mb-8">
-          <div className="text-3xl font-bold text-red-700">CS-CODER</div>
-          <Button className="bg-white text-red-700 shadow-neumorphic hover:shadow-neumorphic-inset transition-shadow">
-            Login
-          </Button>
-        </header>
+        {/*<header className="flex justify-between items-center mb-8">*/}
+        {/*  <Link href="/">*/}
+        {/*    <div className="text-3xl font-bold text-red-700">CS-CODER</div>*/}
+        {/*  </Link>*/}
+        {/*  <Button className="bg-white text-red-700 shadow-neumorphic hover:shadow-neumorphic-inset transition-shadow">*/}
+        {/*    Login*/}
+        {/*  </Button>*/}
+        {/*</header>*/}
 
         <div className="flex gap-8">
           <aside className="w-64 bg-white p-4 rounded-lg shadow-neumorphic">
@@ -149,7 +151,7 @@ interface ContestCardProps {
 
 function ContestCard({ contest }: ContestCardProps) {
   return (
-      <Link href={`/contest.tsx`}>
+      <Link href={`/contest`}>
         <Card className="bg-white p-4 rounded-lg shadow-neumorphic hover:shadow-neumorphic-hover transition-shadow cursor-pointer">
           <h3 className="font-semibold text-lg mb-2">{contest.title}</h3>
           <p className={`text-sm ${getDifficultyColor(contest.difficulty)}`}>
