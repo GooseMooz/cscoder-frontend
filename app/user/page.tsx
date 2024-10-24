@@ -1,7 +1,8 @@
 import React from 'react'
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Trophy, Code, Star, PlusCircle, List } from 'lucide-react'
+import Link from 'next/link'
+import { Trophy, Code, Star, PlusCircle, List, CheckCircle, FolderPlus, Medal, Target } from 'lucide-react'
 
 interface UserStats {
     competitionsParticipated: number;
@@ -16,6 +17,19 @@ const userStats: UserStats = {
     pointsAcquired: 3450,
     rank: "Gold"
 }
+
+interface Activity {
+    icon: React.ReactNode;
+    text: string;
+}
+
+const recentActivities: Activity[] = [
+    { icon: <Trophy className="w-5 h-5 text-yellow-500" />, text: "Participated in 'Algorithm Challenge 2025'" },
+    { icon: <CheckCircle className="w-5 h-5 text-green-500" />, text: "Solved 'Dynamic Programming Mastery' problem" },
+    { icon: <FolderPlus className="w-5 h-5 text-blue-500" />, text: "Created 'Graph Theory Showdown' contest" },
+    { icon: <Medal className="w-5 h-5 text-yellow-600" />, text: "Earned Gold rank" },
+    { icon: <Target className="w-5 h-5 text-red-500" />, text: "Solved 100th problem" }
+]
 
 export default function UserAccount() {
     return (
@@ -49,10 +63,13 @@ export default function UserAccount() {
                 </Card>
 
                 <div className="flex flex-col md:flex-row gap-4">
-                    <Button className="flex-1 bg-white text-red-700 shadow-neumorphic hover:shadow-neumorphic-inset transition-shadow">
-                        <PlusCircle className="mr-2 h-4 w-4" /> Create New Contest/Problem
-                    </Button>
-                    <Button className="flex-1 bg-white text-red-700 shadow-neumorphic hover:shadow-neumorphic-inset transition-shadow">
+                    <Link href={"/create"}>
+                        <Button className="flex-1 bg-white text-red-700 shadow-neumorphic transition-shadow">
+                            <PlusCircle className="mr-2 h-4 w-4" /> Create New Contest/Problem
+                        </Button>
+                    </Link>
+
+                    <Button className="flex-1 bg-white text-red-700 shadow-neumorphic transition-shadow">
                         <List className="mr-2 h-4 w-4" /> View My Competitions
                     </Button>
                 </div>
@@ -60,15 +77,10 @@ export default function UserAccount() {
                 <Card className="mt-8 p-6 shadow-neumorphic">
                     <h2 className="text-2xl font-bold text-red-700 mb-4">Recent Activity</h2>
                     <ul className="space-y-2">
-                        {[
-                            "Participated in 'Algorithm Challenge 2025'",
-                            "Solved 'Dynamic Programming Mastery' problem",
-                            "Created 'Graph Theory Showdown' contest",
-                            "Earned Gold rank",
-                            "Solved 100th problem"
-                        ].map((activity, index) => (
-                            <li key={index} className="bg-white p-3 rounded-md shadow-sm">
-                                {activity}
+                        {recentActivities.map((activity, index) => (
+                            <li key={index} className="bg-white p-3 rounded-md shadow-sm flex items-center space-x-3">
+                                {activity.icon}
+                                <span>{activity.text}</span>
                             </li>
                         ))}
                     </ul>

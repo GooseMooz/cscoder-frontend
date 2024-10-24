@@ -1,7 +1,6 @@
-"use client"; // Mark this as a Client Component
+"use client";
 
 import React, { useEffect, useRef } from 'react';
-import { EditorState } from '@codemirror/state';
 import {
     EditorView,
     keymap,
@@ -20,13 +19,31 @@ import { python } from '@codemirror/lang-python';
 
 import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { closeBrackets } from '@codemirror/autocomplete';
+import { EditorState, Compartment } from '@codemirror/state';
 
 interface CodeEditorProps {
     value: string;
     onChange: (value: string) => void;
+    language: string;
 }
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange }) => {
+function getLanguageExtension(language: string) {
+    switch (language) {
+        case 'JavaScript':
+            return javascript();
+        case 'Java':
+            return java();
+        case 'C++':
+            return cpp();
+        case 'Python':
+            return python();
+        default:
+            return [];
+    }
+}
+
+const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language }) => {
+    const languageCompartment = useRef(new Compartment());
     const editorViewRef = useRef<EditorView | null>(null);
     const editorContainerRef = useRef<HTMLDivElement>(null);
 
@@ -42,10 +59,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange }) => {
                 indentOnInput(),
                 keymap.of([indentWithTab, ...defaultKeymap]),
                 closeBrackets(),
-                javascript(),
-                java(),
-                cpp(),
-                python(),
+                languageCompartment.current.of(getLanguageExtension(language)),
                 EditorState.tabSize.of(3),
                 EditorView.lineWrapping,
                 EditorView.updateListener.of(update => {
@@ -85,6 +99,16 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange }) => {
             }
         }
     }, [value]);
+
+    useEffect(() => {
+        const editorView = editorViewRef.current;
+        if (editorView) {
+            editorView.dispatch({
+                effects: languageCompartment.current.reconfigure(getLanguageExtension(language)),
+            });
+        }
+    }, [language]);
+
 
     return <div className="h-full w-full" ref={editorContainerRef}></div>
 };

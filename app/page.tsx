@@ -50,14 +50,6 @@ export default function Component() {
 
   return (
       <div className="min-h-screen bg-gray-100 p-4">
-        {/*<header className="flex justify-between items-center mb-8">*/}
-        {/*  <Link href="/">*/}
-        {/*    <div className="text-3xl font-bold text-red-700">CS-CODER</div>*/}
-        {/*  </Link>*/}
-        {/*  <Button className="bg-white text-red-700 shadow-neumorphic hover:shadow-neumorphic-inset transition-shadow">*/}
-        {/*    Login*/}
-        {/*  </Button>*/}
-        {/*</header>*/}
 
         <div className="flex gap-8">
           <aside className="w-64 bg-white p-4 rounded-lg shadow-neumorphic">
@@ -92,9 +84,11 @@ export default function Component() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Button className="bg-white text-red-700 shadow-neumorphic hover:shadow-neumorphic-inset transition-shadow">
-                Create
-              </Button>
+              <Link href={"/create"}>
+                <Button className="bg-white text-red-700 shadow-neumorphic transition-shadow">
+                  Create
+                </Button>
+              </Link>
             </div>
 
             <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

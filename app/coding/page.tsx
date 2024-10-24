@@ -38,7 +38,7 @@ Return a list that contains the maximum element
 in the window at each step.`
 }
 
-const programmingLanguages = ['C++', 'Python', 'Java', 'JavaScript', 'TypeScript']
+const programmingLanguages = ['C++', 'Python', 'Java', 'JavaScript']
 
 export default function Component() {
     const [code, setCode] = useState<string>('')
@@ -108,7 +108,7 @@ export default function Component() {
                             </div>
                             <Card className="flex-1 p-6 shadow-neumorphic">
                                 <div className="relative h-full">
-                                    <CodeEditor value={code} onChange={setCode} />
+                                    <CodeEditor value={code} onChange={setCode} language={selectedLanguage} />
                                 </div>
                             </Card>
                         </Card>
