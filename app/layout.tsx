@@ -1,4 +1,4 @@
-"use client"; // Marks this file as a client component
+"use client";
 
 import localFont from "next/font/local";
 import "./globals.css";
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   useEffect(() => {
     if (!socket) {
-      socket = io("/api/socket");
+      socket = io();
     }
 
     const heartbeatInterval = setInterval(() => {
