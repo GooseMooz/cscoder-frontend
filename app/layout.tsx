@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   useEffect(() => {
     if (!socket) {
-      socket = io();
+      socket = io("/sock/");
     }
 
     const heartbeatInterval = setInterval(() => {
