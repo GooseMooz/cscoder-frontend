@@ -5,7 +5,7 @@
 // </Card>
 
 "use client"
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight, Menu } from 'lucide-react'
@@ -48,6 +48,19 @@ export default function Component() {
     // const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     //     setCode(e.target.value)
     // }
+
+    useEffect(() => {
+        const savedCode = localStorage.getItem('userCode');
+        if (savedCode) {
+            setCode(savedCode);
+        }
+        console.log("Saved the code")
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('userCode', code);
+        console.log("Set the code")
+    }, [code]);
 
     const handleLanguageChange = (value: string) => {
         setSelectedLanguage(value)

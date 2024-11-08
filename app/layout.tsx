@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, {useEffect, useRef} from "react";
 import { io, Socket } from "socket.io-client";
 
 const geistSans = localFont({
@@ -18,27 +18,33 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-let socket: Socket;
-
 export default function RootLayout({
                                      children,
                                    }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useEffect(() => {
-    if (!socket) {
-      socket = io("/sock/");
-    }
+    const socketRef = useRef<Socket | null>(null);
 
-    const heartbeatInterval = setInterval(() => {
-      socket.emit("heartbeat");
-    }, 30000); // Heartbeat every 30 seconds
+    useEffect(() => {
+            socketRef.current = io("http://localhost:3000");
 
-    return () => {
-      clearInterval(heartbeatInterval);
-      socket.disconnect();
-    };
-  }, []);
+            socketRef.current.on("connect", () => {
+                console.log("Connected to server with ID:", socketRef.current?.id);
+            });
+
+            socketRef.current.on('heartbeat', () => {
+                // @ts-ignore
+                socketRef.current.emit('heartbeat');
+            });
+
+            socketRef.current.on("disconnect", () => {
+                console.log("Disconnected from server");
+            });
+
+        return () => {
+            socketRef.current?.disconnect();
+        };
+    }, []);
 
   return (
       <html lang="en">
