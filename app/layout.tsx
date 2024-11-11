@@ -35,6 +35,7 @@ export default function RootLayout({
             socketRef.current.on('heartbeat', () => {
                 // @ts-ignore
                 socketRef.current.emit('heartbeat');
+                console.log("Got a heartbeat!");
             });
 
             socketRef.current.on("disconnect", () => {
@@ -56,7 +57,7 @@ export default function RootLayout({
           <div className="text-3xl font-bold text-red-700 cursor-pointer">CS-CODER</div>
         </Link>
         <Link href="/user">
-          <Button className="bg-white text-red-700 shadow-neumorphic transition-shadow">
+          <Button className="bg-white hover:bg-gray-200 text-red-700 px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
             Login
           </Button>
         </Link>
