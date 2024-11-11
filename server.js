@@ -1,7 +1,6 @@
 const express = require('express');
 const next = require('next');
 const http = require('http');
-const cors = require('cors');
 const { Server } = require('socket.io');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -17,7 +16,6 @@ const io = new Server(httpServer, {
     }
 });
 
-app.use(cors);
 app.prepare().then(() => {
     server.get('*', (req, res) => {
         return handle(req, res);
