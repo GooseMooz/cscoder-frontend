@@ -1,6 +1,7 @@
 const express = require('express');
 const next = require('next');
 const http = require('http');
+const cors = require('cors');
 const { Server } = require('socket.io');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -11,11 +12,12 @@ const server = express();
 const httpServer = http.createServer(server);
 const io = new Server(httpServer, {
     cors: {
-        origin: "*",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"]
     }
 });
 
+app.use(cors);
 app.prepare().then(() => {
     server.get('*', (req, res) => {
         return handle(req, res);
