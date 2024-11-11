@@ -26,7 +26,7 @@ export default function RootLayout({
     const socketRef = useRef<Socket | null>(null);
 
     useEffect(() => {
-            socketRef.current = io("http://localhost:3000");
+            socketRef.current = io("https://coder.cmpt.sfu.ca/");
 
             socketRef.current.on("connect", () => {
                 console.log("Connected to server with ID:", socketRef.current?.id);
