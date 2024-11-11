@@ -44,23 +44,34 @@ export default function Component() {
     const [code, setCode] = useState<string>('')
     const [consoleOutput, setConsoleOutput] = useState<string>('')
     const [selectedLanguage, setSelectedLanguage] = useState<string>('C++')
-
+    const [isInitialLoad, setIsInitialLoad] = useState(true)
     // const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     //     setCode(e.target.value)
     // }
 
     useEffect(() => {
         const savedCode = localStorage.getItem('userCode');
+        const savedLanguage = localStorage.getItem('userLanguage');
+
+        if (savedLanguage) {
+            console.log(savedLanguage);
+            handleLanguageChange(savedLanguage);
+        }
+
         if (savedCode) {
             setCode(savedCode);
         }
-        console.log("Saved the code")
+        setIsInitialLoad(false);
+        console.log("Set the code")
     }, []);
 
     useEffect(() => {
-        localStorage.setItem('userCode', code);
-        console.log("Set the code")
-    }, [code]);
+        if (!isInitialLoad) {
+           localStorage.setItem('userCode', code);
+           localStorage.setItem('userLanguage', selectedLanguage);
+           console.log("Saved the code")
+        }
+    }, [code, isInitialLoad, selectedLanguage]);
 
     const handleLanguageChange = (value: string) => {
         setSelectedLanguage(value)
@@ -104,7 +115,7 @@ export default function Component() {
                         <Card className="p-6 shadow-neumorphic">
                             <div className="flex justify-between items-center mb-4">
                                 <div className="relative z-10">
-                                    <Select onValueChange={handleLanguageChange} defaultValue={selectedLanguage}>
+                                    <Select onValueChange={handleLanguageChange} value={selectedLanguage}>
                                         <SelectTrigger className="w-[180px]">
                                             <SelectValue placeholder="Select Language" />
                                         </SelectTrigger>
