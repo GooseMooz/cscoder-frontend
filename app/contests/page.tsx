@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card } from "@/components/ui/card"
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
 import Link from 'next/link';
 
 interface Contest {
@@ -15,14 +15,6 @@ interface Contest {
   location: string;
 }
 
-const contests: Contest[] = [
-  { id: 1, title: "A Strange contest 2023", difficulty: "Hard", startingSoon: true, category: "Algorithms", location: "Remote" },
-  { id: 2, title: "Dynamic Programming Challenge", difficulty: "Easy", startingSoon: false, category: "Dynamic Programming", location: "Burnaby" },
-  { id: 3, title: "Data Structures Showdown", difficulty: "Normal", startingSoon: true, category: "Data Structures", location: "Surrey" },
-  { id: 4, title: "Algorithm Marathon", difficulty: "Hard", startingSoon: false, category: "Algorithms", location: "Vancouver" },
-  { id: 5, title: "Coding Sprint 2023", difficulty: "Easy", startingSoon: true, category: "Algorithms", location: "Remote" },
-]
-
 interface Filters {
   category: string;
   difficulty: string;
@@ -30,48 +22,100 @@ interface Filters {
 }
 
 export default function Component() {
-  const [searchTerm, setSearchTerm] = useState<string>("")
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
-    category: "All",
-    difficulty: "All",
-    location: "All"
-  })
+    category: 'All',
+    difficulty: 'All',
+    location: 'All',
+  });
+  const [contests, setContests] = useState<Contest[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredContests = contests.filter(contest =>
+  useEffect(() => {
+    const fetchContests = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/info', {
+          credentials: 'include', // Include cookies for session authentication
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch contests');
+        }
+        const data = await response.json();
+        // Map the backend data to match your Contest interface
+        const fetchedContests = data.contests.map((contest: any) => ({
+          id: contest.cid,
+          title: contest.name,
+          difficulty: mapDifficulty(contest.difficulty),
+          startingSoon: new Date(contest.starts_at) > new Date(),
+          category: contest.category || 'Algorithms',
+          location: contest.location || 'Remote',
+        }));
+        setContests(fetchedContests);
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContests();
+  }, []);
+
+  const mapDifficulty = (difficulty: string): 'Easy' | 'Normal' | 'Hard' => {
+    switch (difficulty) {
+      case 'Easy':
+      case 'Normal':
+      case 'Hard':
+        return difficulty;
+      default:
+        return 'Normal';
+    }
+  };
+
+  const filteredContests = contests.filter((contest) =>
       contest.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (filters.category === "All" || contest.category === filters.category) &&
-      (filters.difficulty === "All" || contest.difficulty === filters.difficulty) &&
-      (filters.location === "All" || contest.location === filters.location)
-  )
+      (filters.category === 'All' || contest.category === filters.category) &&
+      (filters.difficulty === 'All' || contest.difficulty === filters.difficulty) &&
+      (filters.location === 'All' || contest.location === filters.location)
+  );
 
   const handleFilterChange = (filterType: keyof Filters, value: string) => {
-    setFilters(prev => ({ ...prev, [filterType]: value }))
+    setFilters((prev) => ({ ...prev, [filterType]: value }));
+  };
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="min-h-screen flex items-center justify-center">Error: {error}</div>;
   }
 
   return (
       <div className="min-h-screen bg-gray-100 p-4">
-
         <div className="flex gap-8">
           <aside className="w-64 bg-white p-4 rounded-lg shadow-neumorphic">
             <h2 className="text-xl font-semibold mb-4 text-red-700">Filters</h2>
             <div className="space-y-4">
               <FilterSection
                   title="Category"
-                  options={["All", "Algorithms", "Dynamic Programming", "Data Structures"]}
+                  options={['All', 'Algorithms', 'Dynamic Programming', 'Data Structures']}
                   currentFilter={filters.category}
-                  onFilterChange={(value) => handleFilterChange("category", value)}
+                  onFilterChange={(value) => handleFilterChange('category', value)}
               />
               <FilterSection
                   title="Difficulty"
-                  options={["All", "Easy", "Normal", "Hard"]}
+                  options={['All', 'Easy', 'Normal', 'Hard']}
                   currentFilter={filters.difficulty}
-                  onFilterChange={(value) => handleFilterChange("difficulty", value)}
+                  onFilterChange={(value) => handleFilterChange('difficulty', value)}
               />
               <FilterSection
                   title="Location"
-                  options={["All", "Remote", "Burnaby", "Surrey", "Vancouver"]}
+                  options={['All', 'Remote', 'Burnaby', 'Surrey', 'Vancouver']}
                   currentFilter={filters.location}
-                  onFilterChange={(value) => handleFilterChange("location", value)}
+                  onFilterChange={(value) => handleFilterChange('location', value)}
               />
             </div>
           </aside>
@@ -84,7 +128,7 @@ export default function Component() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Link href={"/create"}>
+              <Link href={'/create'}>
                 <Button className="bg-white text-red-700 shadow-neumorphic transition-shadow">
                   Create
                 </Button>
@@ -110,7 +154,7 @@ export default function Component() {
           </main>
         </div>
       </div>
-  )
+  );
 }
 
 interface FilterSectionProps {
@@ -128,7 +172,9 @@ function FilterSection({ title, options, currentFilter, onFilterChange }: Filter
           {options.map((option) => (
               <li
                   key={option}
-                  className={`cursor-pointer ${currentFilter === option ? 'text-green-600' : 'text-gray-600'}`}
+                  className={`cursor-pointer ${
+                      currentFilter === option ? 'text-green-600' : 'text-gray-600'
+                  }`}
                   onClick={() => onFilterChange(option)}
               >
                 {option}
@@ -136,7 +182,7 @@ function FilterSection({ title, options, currentFilter, onFilterChange }: Filter
           ))}
         </ul>
       </div>
-  )
+  );
 }
 
 interface ContestCardProps {
@@ -145,29 +191,29 @@ interface ContestCardProps {
 
 function ContestCard({ contest }: ContestCardProps) {
   return (
-      <Link href={`/contest`}>
+      <Link href={`/contest/${contest.id}`}>
         <Card className="bg-white p-4 rounded-lg shadow-neumorphic hover:shadow-neumorphic-hover transition-shadow cursor-pointer">
           <h3 className="font-semibold text-lg mb-2">{contest.title}</h3>
           <p className={`text-sm ${getDifficultyColor(contest.difficulty)}`}>
             {contest.difficulty}
           </p>
           <p className="text-sm text-gray-600 mt-2">
-            {contest.startingSoon ? "Starting: soon..." : "Starting: later"}
+            {contest.startingSoon ? 'Starting: soon...' : 'Starting: later'}
           </p>
         </Card>
       </Link>
-  )
+  );
 }
 
 function getDifficultyColor(difficulty: Contest['difficulty']): string {
   switch (difficulty) {
     case 'Easy':
-      return 'text-green-600'
+      return 'text-green-600';
     case 'Normal':
-      return 'text-yellow-600'
+      return 'text-yellow-600';
     case 'Hard':
-      return 'text-red-600'
+      return 'text-red-600';
     default:
-      return 'text-gray-600'
+      return 'text-gray-600';
   }
 }
