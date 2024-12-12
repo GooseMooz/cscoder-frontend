@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import Link from 'next/link';
 
+// TODO: Setup right JSON backend for this page
 interface Contest {
   id: number;
   title: string;
@@ -36,7 +37,7 @@ export default function Component() {
     const fetchContests = async () => {
       try {
         const response = await fetch('http://localhost:5000/info', {
-          credentials: 'include', // Include cookies for session authentication
+          credentials: 'include', // Include cookies for session authentication // TODO: Figure this out
         });
         if (!response.ok) {
           throw new Error('Failed to fetch contests');
@@ -47,8 +48,8 @@ export default function Component() {
           id: contest.cid,
           title: contest.name,
           difficulty: mapDifficulty(contest.difficulty),
-          startingSoon: new Date(contest.starts_at) > new Date(),
-          category: contest.category || 'Algorithms',
+          startingSoon: new Date(contest.starts_at) > new Date(), // TODO: Maybe change logic for this
+          category: contest.category || 'Algorithms', // TODO: Add categories logic to backend
           location: contest.location || 'Remote',
         }));
         setContests(fetchedContests);

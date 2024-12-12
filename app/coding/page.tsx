@@ -21,6 +21,10 @@ interface CodingChallenge {
 
 const programmingLanguages = ['C++', 'Python', 'Java', 'JavaScript'];
 
+// TODO: Get the problem data from backend and id from URL
+//  Provide PID from the user (either from layout.tsx or from somewhere else (cookies?))
+//  Also figure out how to submit the code to the judge
+//  Add ChatGPT integration based on the result and appeared error in console or in logic
 export default function Component() {
     const [code, setCode] = useState<string>('');
     const [consoleOutput, setConsoleOutput] = useState<string>('');

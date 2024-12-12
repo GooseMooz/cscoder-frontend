@@ -4,9 +4,11 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { io, Socket } from "socket.io-client";
 
+// TODO: Figure out if this is the right way of making the socket connection
+//  Maybe change to bringing the socket with cookies or something
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,6 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
     const socketRef = useRef<Socket | null>(null);
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const [userName, setUserName] = useState("");
 
     useEffect(() => {
             socketRef.current = io("https://coder.cmpt.sfu.ca/");
@@ -56,9 +60,11 @@ export default function RootLayout({
         <Link href="/">
           <div className="text-3xl font-bold text-red-700 cursor-pointer">CS-CODER</div>
         </Link>
-        <Link href="/user">
+          // TODO: Change this ling to logging in or getting into your profile
+        <Link href={`/user/${userLoggedIn ? userName : ""}`}>
+            // TODO: Add SFU login AND change if the user is logged in
           <Button className="bg-white hover:bg-gray-200 text-red-700 px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
-            Login
+            {userLoggedIn ? userName : "Log In"}
           </Button>
         </Link>
       </header>

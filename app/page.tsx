@@ -28,7 +28,7 @@ export default function MainPage() {
       </p>
       <div className="space-y-6 flex flex-col items-center">
         <Button asChild className="bg-red-700 hover:bg-red-800 text-white px-12 py-6 rounded-lg text-2xl font-semibold transition-colors duration-300">
-          <Link href="/user">Log In with SFU</Link>
+          <Link href="/user">Log In with SFU</Link> // TODO: Add SFU login
         </Button>
         <Button asChild variant="outline" className="bg-white hover:bg-gray-200 text-red-700 px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
           <Link href="/contests">Continue as Guest</Link>

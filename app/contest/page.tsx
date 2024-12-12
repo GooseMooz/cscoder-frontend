@@ -1,5 +1,8 @@
 "use client";
 
+// TODO: Change this page to use the contest id from the URL
+//  CID should be the pulled from the URL
+//  Figure out if the JSON is right
 import React, { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { CheckCircle, XCircle } from 'lucide-react';

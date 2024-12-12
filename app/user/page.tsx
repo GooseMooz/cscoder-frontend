@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import Link from 'next/link'
 import { Trophy, Code, Star, PlusCircle, List, CheckCircle, FolderPlus, Medal, Target } from 'lucide-react'
 
+// TODO: Setup backend for this page
 interface UserStats {
     competitionsParticipated: number;
     problemsSolved: number;
@@ -11,7 +12,7 @@ interface UserStats {
     rank: string;
 }
 
-const userStats: UserStats = {
+const userStats: UserStats = { // TODO: Add user stats to backend if possible
     competitionsParticipated: 15,
     problemsSolved: 87,
     pointsAcquired: 3450,
@@ -23,7 +24,7 @@ interface Activity {
     text: string;
 }
 
-const recentActivities: Activity[] = [
+const recentActivities: Activity[] = [ /// TODO: Add recent activities to backend if possible
     { icon: <Trophy className="w-5 h-5 text-yellow-500" />, text: "Participated in 'Algorithm Challenge 2025'" },
     { icon: <CheckCircle className="w-5 h-5 text-green-500" />, text: "Solved 'Dynamic Programming Mastery' problem" },
     { icon: <FolderPlus className="w-5 h-5 text-blue-500" />, text: "Created 'Graph Theory Showdown' contest" },

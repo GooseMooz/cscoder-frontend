@@ -21,6 +21,7 @@ interface Test {
     expectedOutput: string;
 }
 
+// TODO: Figure out the JSON format for this
 const initialProblems: Problem[] = [
     { id: '1', name: 'Two Sum', difficulty: 'Easy' },
     { id: '2', name: 'Reverse Linked List', difficulty: 'Easy' },
@@ -29,7 +30,7 @@ const initialProblems: Problem[] = [
     { id: '5', name: 'Sliding Window Maximum', difficulty: 'Hard' },
 ]
 
-const programmingLanguages = ['C++', 'Python', 'Java', 'JavaScript']
+const programmingLanguages = ['C++', 'Python', 'Java', 'JavaScript'] // Make sure these are the right ones
 
 export default function ContestProblemCreation() {
     const [availableProblems, setAvailableProblems] = useState<Problem[]>(initialProblems)
@@ -46,6 +47,9 @@ export default function ContestProblemCreation() {
     const [selectedLanguage, setSelectedLanguage] = useState<string>('C++')
 
     useEffect(() => {
+        // TODO: Add backend connection for this page
+        //  - Assemble the problem data to the right format
+        //  - Send the right problem data to the right backend endpoint
         const filteredProblems = initialProblems.filter(problem =>
             problem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             problem.difficulty.toLowerCase().includes(searchTerm.toLowerCase())
