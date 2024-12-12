@@ -21,7 +21,7 @@ interface Test {
     expectedOutput: string;
 }
 
-// TODO: Figure out the JSON format for this
+// TODO: Fetch recently created problems from backend
 const initialProblems: Problem[] = [
     { id: '1', name: 'Two Sum', difficulty: 'Easy' },
     { id: '2', name: 'Reverse Linked List', difficulty: 'Easy' },

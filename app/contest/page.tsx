@@ -1,6 +1,6 @@
 "use client";
 
-// TODO: Change this page to use the contest id from the URL
+// TODO: Change this page to use the contest id from the URL and maybe PID
 //  CID should be the pulled from the URL
 //  Figure out if the JSON is right
 import React, { useState, useEffect } from 'react';
@@ -29,7 +29,7 @@ interface ContestData {
 export default function Component() {
     const API_URL = 'http://localhost:5000';
     const [contestData, setContestData] = useState<ContestData | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true); // TODO: Add loading animation to the page
     const [error, setError] = useState<string | null>(null);
 
     const router = useRouter();
@@ -63,7 +63,7 @@ export default function Component() {
                 // Map data to your ContestData interface
                 const mappedContestData: ContestData = {
                     title: leaderboardData.contest.name,
-                    startTime: `Starts: ${new Date(leaderboardData.contest.starts_at).toLocaleString()}`,
+                    startTime: `Starts: ${new Date(leaderboardData.contest.starts_at).toLocaleString()}`, // TODO: CHANGE THIS STUFF
                     duration: `Ends: ${new Date(leaderboardData.contest.ends_at).toLocaleString()}`,
                     problems: contestData.contestProblemsStatus.map((problem: any) => ({
                         id: problem.pid,

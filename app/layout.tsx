@@ -27,7 +27,8 @@ export default function RootLayout({
 }>) {
     const socketRef = useRef<Socket | null>(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
-    const [userName, setUserName] = useState("");
+    const [userName, setUserName] = useState(""); // Update this stuff when logged in
+    // TODO: Also figure out if you can communicate between layout.tsx and page.tsx
 
     useEffect(() => {
             socketRef.current = io("https://coder.cmpt.sfu.ca/");

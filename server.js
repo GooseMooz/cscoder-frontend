@@ -7,6 +7,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+// TODO: Might need to change this stuff
 const server = express();
 const httpServer = http.createServer(server);
 const io = new Server(httpServer, {

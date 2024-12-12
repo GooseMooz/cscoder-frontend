@@ -50,14 +50,14 @@ export default function Component() {
           difficulty: mapDifficulty(contest.difficulty),
           startingSoon: new Date(contest.starts_at) > new Date(), // TODO: Maybe change logic for this
           category: contest.category || 'Algorithms', // TODO: Add categories logic to backend
-          location: contest.location || 'Remote',
+          location: contest.location || 'Remote', // TODO: Maybe add locations to backend
         }));
         setContests(fetchedContests);
       } catch (err: any) {
         console.error(err);
         setError(err.message);
       } finally {
-        setLoading(false);
+        setLoading(false); // TODO: Add loading animation to the page
       }
     };
 

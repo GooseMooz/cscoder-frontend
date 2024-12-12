@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card"
 import Link from 'next/link'
 import { Trophy, Code, Star, PlusCircle, List, CheckCircle, FolderPlus, Medal, Target } from 'lucide-react'
 
-// TODO: Setup backend for this page
 interface UserStats {
     competitionsParticipated: number;
     problemsSolved: number;
@@ -65,6 +64,7 @@ export default function UserAccount() {
 
                 <div className="flex flex-col md:flex-row gap-4">
                     <Link href={"/create"}>
+                        // TODO: Check permissions of this user to show/hide this button
                         <Button className="flex-1 bg-white text-red-700 shadow-neumorphic transition-shadow">
                             <PlusCircle className="mr-2 h-4 w-4" /> Create New Contest/Problem
                         </Button>
